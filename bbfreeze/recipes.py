@@ -234,7 +234,9 @@ def recipe_matplotlib(mf):
         mf.copyTree(dp, "matplotlibdata", m)
 
     mf.import_hook("matplotlib.numerix.random_array", m)
-    backend_name = 'backend_' + matplotlib.get_backend().lower()
+    # the import hook expects a string (matplotlib in later versions has
+    # all rcParams, including the backend as unicode)
+    backend_name = 'backend_' + str(matplotlib.get_backend().lower())
     print "recipe_matplotlib: using the %s matplotlib backend" % (backend_name, )
     mf.import_hook('matplotlib.backends.' + backend_name, m)
     return True
